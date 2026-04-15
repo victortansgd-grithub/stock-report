@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Daily Stock Report Emailer  —  AI Chip Dashboard Edition (v2)
-Sends NVDA · AMD · AVGO · MU · SWKS · RGTI · ON · CRDO report
+Sends NVDA · AMD · AVGO · MU · SWKS · RGTI · ON · CRDO · DDOG report
 Scheduled at 06:00 SGT (Asia/Singapore) every day
 
 Price data  : NASDAQ Official API  (no API key needed)
@@ -41,16 +41,17 @@ log = logging.getLogger(__name__)
 
 # ─── Portfolio Positions ──────────────────────────────────────────────────────
 POSITIONS = {
-    "AMD":  [{"shares": 500,  "entry": 202.00}],
+    "AMD":  [{"shares": 500,  "entry": 201.00}],
     "AVGO": [{"shares": 350,  "entry": 335.00},
              {"shares": 500,  "entry": 362.00},
              {"shares": 200,  "entry": 360.00}],
-    "SWKS": [{"shares": 500,  "entry": 65.00}],
+    "SWKS": [{"shares": 500,  "entry": 62.00}],
     "RGTI": [{"shares": 2000, "entry": 26.00}],
     "ON":   [{"shares": 1000, "entry": 90.00},
              {"shares": 3000, "entry": 92.50},
              {"shares": 5000, "entry": 65.00}],
     "CRDO": [{"shares": 500,  "entry": 130.00}],
+    "DDOG": [{"shares": 400,  "entry": 110.00}],
     # NVDA and MU have NO POSITION
 }
 
@@ -111,6 +112,13 @@ STOCKS = [
         "resistance": [("R1 — Resistance", "$100\u2013$110", "watch", "NEAR-TERM"), ("R2 — Entry zone", "$130", "watch", "YOUR ENTRY")],
         "fwd_pe": "60x", "rev_growth": "+75% YoY", "mkt_cap": "~$14B",
         "catalyst": "AEC (Active Electrical Cable) adoption in AI datacenters. MSFT + hyperscaler volume ramp.",
+    },
+    {
+        "ticker": "DDOG", "name": "Datadog Inc.", "css_class": "ddog", "color": "#7c3aed",
+        "support": [("S1 — Support", "$100", "watch", "WATCH"), ("S2 — Key level", "$90", "watch", "PIVOT")],
+        "resistance": [("R1 — Resistance", "$120–$130", "watch", "NEAR-TERM"), ("R2 — Entry zone", "$110", "watch", "YOUR ENTRY")],
+        "fwd_pe": "80x", "rev_growth": "+25% YoY", "mkt_cap": "~$38B",
+        "catalyst": "AI observability demand surge. Expanding into security & cloud cost mgmt. Strong enterprise adoption.",
     },
 ]
 
@@ -963,7 +971,7 @@ def build_email_html(prices: dict, commentary: dict) -> str:
 <header class="hdr">
   <div>
     <h1>AI Chip &middot; Decision Dashboard</h1>
-    <p>NVDA &middot; AMD &middot; AVGO &middot; MU &middot; SWKS &middot; RGTI &middot; ON &middot; CRDO &nbsp;|&nbsp; Updated: {date_str} &nbsp;|&nbsp; {time_str}</p>
+    <p>NVDA &middot; AMD &middot; AVGO &middot; MU &middot; SWKS &middot; RGTI &middot; ON &middot; CRDO &middot; DDOG &nbsp;|&nbsp; Updated: {date_str} &nbsp;|&nbsp; {time_str}</p>
   </div>
   <div class="mkt-bar">
     <div class="mkt-item">
@@ -1143,7 +1151,7 @@ def send_email(html_body: str):
         return
 
     sgt_date = datetime.now(ZoneInfo("Asia/Singapore")).strftime("%d %b %Y")
-    subject  = f"AI Chip Dashboard \u2014 NVDA | AMD | AVGO | MU | SWKS | RGTI | ON | CRDO  [{sgt_date}]"
+    subject  = f"AI Chip Dashboard \u2014 NVDA | AMD | AVGO | MU | SWKS | RGTI | ON | CRDO | DDOG  [{sgt_date}]"
 
     msg = MIMEMultipart("alternative")
     msg["Subject"] = subject
