@@ -1196,7 +1196,8 @@ def send_whatsapp_pnl(prices: dict):
     total_value    = 0.0
 
     for ticker, lots in POSITIONS.items():
-        price = prices.get(ticker)
+        info  = prices.get(ticker, {})
+        price = info.get("price") if isinstance(info, dict) else info
         if price is None:
             lines.append(f"{ticker}  — price unavailable")
             continue
