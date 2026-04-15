@@ -49,7 +49,7 @@ POSITIONS = {
     "RGTI": [{"shares": 2000, "entry": 26.00}],
     "ON":   [{"shares": 1000, "entry": 90.00},
              {"shares": 3000, "entry": 92.50},
-             {"shares": 5000, "entry": 62.00}],
+             {"shares": 5000, "entry": 68.00}],
     "CRDO": [{"shares": 500,  "entry": 130.00}],
     "DDOG": [{"shares": 400,  "entry": 110.00}],
     # NVDA and MU have NO POSITION
