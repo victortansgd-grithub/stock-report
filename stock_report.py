@@ -27,9 +27,13 @@ from dotenv import load_dotenv
 
 # ─── Credentials ──────────────────────────────────────────────────────────────
 load_dotenv()
-GMAIL_SENDER       = os.getenv("GMAIL_SENDER", "")
-GMAIL_APP_PASSWORD = os.getenv("GMAIL_APP_PASSWORD", "")
-RECIPIENT_EMAIL    = os.getenv("RECIPIENT_EMAIL", "victortansgd@gmail.com")
+GMAIL_SENDER            = os.getenv("GMAIL_SENDER", "")
+GMAIL_APP_PASSWORD      = os.getenv("GMAIL_APP_PASSWORD", "")
+RECIPIENT_EMAIL         = os.getenv("RECIPIENT_EMAIL", "victortansgd@gmail.com")
+TWILIO_ACCOUNT_SID      = os.getenv("TWILIO_ACCOUNT_SID", "")
+TWILIO_AUTH_TOKEN       = os.getenv("TWILIO_AUTH_TOKEN", "")
+TWILIO_WHATSAPP_NUMBER  = os.getenv("TWILIO_WHATSAPP_NUMBER", "whatsapp:+14155238886")
+WHATSAPP_RECIPIENT      = os.getenv("WHATSAPP_RECIPIENT", "")
 
 # ─── Logging ──────────────────────────────────────────────────────────────────
 logging.basicConfig(
@@ -1170,6 +1174,75 @@ def send_email(html_body: str):
         log.error("Gmail auth failed. Use App Password (not your Gmail password).")
     except Exception as e:
         log.error(f"Email failed: {e}")
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+#  SECTION 4B — WHATSAPP P&L SUMMARY SENDER
+# ══════════════════════════════════════════════════════════════════════════════
+
+def send_whatsapp_pnl(prices: dict):
+    """Send a concise Portfolio P&L summary to WhatsApp via Twilio."""
+    if not TWILIO_ACCOUNT_SID or not TWILIO_AUTH_TOKEN or not WHATSAPP_RECIPIENT:
+        log.warning("Twilio credentials or WHATSAPP_RECIPIENT not set — skipping WhatsApp P&L.")
+        return
+
+    sgt_now  = datetime.now(ZoneInfo("Asia/Singapore"))
+    date_str = sgt_now.strftime("%d %b %Y")
+
+    lines = []
+    lines.append(f"📊 *Portfolio P&L — {date_str}*\n")
+
+    total_invested = 0.0
+    total_value    = 0.0
+
+    for ticker, lots in POSITIONS.items():
+        price = prices.get(ticker)
+        if price is None:
+            lines.append(f"{ticker}  — price unavailable")
+            continue
+
+        total_shares = sum(l["shares"] for l in lots)
+        cost_basis   = sum(l["shares"] * l["entry"] for l in lots)
+        avg_entry    = cost_basis / total_shares
+        market_value = total_shares * price
+        pnl_dollar   = market_value - cost_basis
+        pnl_pct      = (pnl_dollar / cost_basis) * 100 if cost_basis else 0
+
+        total_invested += cost_basis
+        total_value    += market_value
+
+        arrow = "🟢" if pnl_dollar >= 0 else "🔴"
+        sign  = "+" if pnl_dollar >= 0 else ""
+        lines.append(
+            f"{arrow} *{ticker}*  {total_shares:,} shares @ ${avg_entry:.0f} → ${price:.2f}"
+            f"  |  {sign}${pnl_dollar:,.0f}  ({sign}{pnl_pct:.1f}%)"
+        )
+
+    total_pnl     = total_value - total_invested
+    total_pnl_pct = (total_pnl / total_invested * 100) if total_invested else 0
+    total_sign    = "+" if total_pnl >= 0 else ""
+    total_arrow   = "📈" if total_pnl >= 0 else "📉"
+
+    lines.append(f"\n💼 *Total Invested:* ${total_invested:,.0f}")
+    lines.append(f"{total_arrow} *Total P&L:* {total_sign}${total_pnl:,.0f}  ({total_sign}{total_pnl_pct:.1f}%)")
+    lines.append(f"\n_Sent at 06:00 SGT · Twilight AI_")
+
+    message = "\n".join(lines)
+
+    try:
+        url  = f"https://api.twilio.com/2010-04-01/Accounts/{TWILIO_ACCOUNT_SID}/Messages.json"
+        data = {
+            "From": TWILIO_WHATSAPP_NUMBER,
+            "To":   f"whatsapp:{WHATSAPP_RECIPIENT}",
+            "Body": message,
+        }
+        resp = requests.post(url, data=data, auth=(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN), timeout=30)
+        if resp.status_code in [200, 201]:
+            log.info(f"WhatsApp P&L sent successfully to {WHATSAPP_RECIPIENT}")
+        else:
+            log.error(f"WhatsApp send failed: {resp.status_code} — {resp.text}")
+    except Exception as e:
+        log.error(f"WhatsApp error: {e}")
 
 
 # ══════════════════════════════════════════════════════════════════════════════
