@@ -56,7 +56,6 @@ POSITIONS = {
              {"shares": 5000, "entry": 68.00}],
     "CRDO": [{"shares": 500,  "entry": 130.00}],
     "DDOG": [{"shares": 400,  "entry": 110.00}],
-    "TSLA": [{"shares":200, "entry":250.0}],
     # NVDA and MU have NO POSITION
 }
 
