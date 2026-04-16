@@ -45,7 +45,7 @@ log = logging.getLogger(__name__)
 
 # ─── Portfolio Positions ──────────────────────────────────────────────────────
 POSITIONS = {
-    "AMD": [{"shares":300, "entry":201.0}],
+    "AMD": [{"shares":100, "entry":201.0}],
     "AVGO": [{"shares": 350,  "entry": 335.00},
              {"shares": 500,  "entry": 362.00},
              {"shares": 200,  "entry": 360.00}],
