@@ -45,17 +45,16 @@ log = logging.getLogger(__name__)
 
 # ─── Portfolio Positions ──────────────────────────────────────────────────────
 POSITIONS = {
-    "AMD":  [{"shares": 500,  "entry": 201.00}],
+    "AMD": [{"shares":100, "entry":201.0}],
     "AVGO": [{"shares": 350,  "entry": 335.00},
              {"shares": 500,  "entry": 362.00},
              {"shares": 200,  "entry": 360.00}],
     "SWKS": [{"shares": 500,  "entry": 62.00}],
     "RGTI": [{"shares": 2000, "entry": 26.00}],
-    "ON":   [{"shares": 1000, "entry": 90.00},
+    "ON": [{"shares": 1000, "entry": 90.00},
              {"shares": 3000, "entry": 92.50}],
     "CRDO": [{"shares": 500,  "entry": 130.00}],
     "DDOG": [{"shares": 400,  "entry": 110.00}],
-    "TSLA": [{"shares":200, "entry":250.0}],
     # NVDA and MU have NO POSITION
 }
 
