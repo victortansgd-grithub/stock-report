@@ -54,7 +54,7 @@ POSITIONS = {
     "ON": [{"shares": 1000, "entry": 90.00},
              {"shares": 3000, "entry": 92.50}],
     "CRDO": [{"shares": 500,  "entry": 130.00}],
-    "DDOG": [{"shares": 400,  "entry": 110.00}],
+    "DDOG": [{"shares":100, "entry":110.0}],
     # NVDA and MU have NO POSITION
     "PLTR": [{"shares":1000, "entry":147.0}],
 }
