@@ -56,6 +56,7 @@ POSITIONS = {
     "CRDO": [{"shares": 500,  "entry": 130.00}],
     # NVDA and MU have NO POSITION
     "PLTR": [{"shares":1000, "entry":147.0}],
+    "ASX": [{"shares":4000, "entry":30.0}],
 }
 
 # ─── Stock configuration ──────────────────────────────────────────────────────
