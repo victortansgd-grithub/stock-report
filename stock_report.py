@@ -57,6 +57,7 @@ POSITIONS = {
     # NVDA and MU have NO POSITION
     "PLTR": [{"shares":1000, "entry":147.0}],
     "ASX": [{"shares":4000, "entry":30.0}],
+    "NVDA": [{"shares":400, "entry":220.0}],
 }
 
 # ─── Stock configuration ──────────────────────────────────────────────────────
