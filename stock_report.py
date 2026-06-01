@@ -53,8 +53,7 @@ POSITIONS = {
     "RGTI": [{"shares": 2000, "entry": 26.00}],
     "ON": [{"shares": 1000, "entry": 90.00},
              {"shares": 3000, "entry": 92.50}],
-    "CRDO": [{"shares":500, "entry":130.0},
-             {"shares":400, "entry":213.62}],
+    "CRDO": [{"shares":500, "entry":130.0}],
     # NVDA and MU have NO POSITION
     "PLTR": [{"shares":1000, "entry":147.0}],
     "ASX": [{"shares":4000, "entry":30.0}],
