@@ -57,7 +57,8 @@ POSITIONS = {
     # NVDA and MU have NO POSITION
     "ASX": [{"shares":4000, "entry":30.0}],
     "NVDA": [{"shares":400, "entry":220.0}],
-    "COHR": [{"shares":300, "entry":345.0}],
+    "COHR": [{"shares":300, "entry":345.0},
+             {"shares":100, "entry":310.0}],
 }
 
 # ─── Stock configuration ──────────────────────────────────────────────────────
